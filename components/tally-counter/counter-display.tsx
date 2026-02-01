@@ -3,14 +3,14 @@ import { Fonts } from '@/constants/theme';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import React from 'react';
 import { Pressable, StyleSheet } from 'react-native';
-import Animated, { AnimatedStyle, FadeIn } from 'react-native-reanimated';
+import Animated, { FadeIn } from 'react-native-reanimated';
 
 interface CounterDisplayProps {
   count: number;
   goal: number;
   onIncrement: () => void;
   onDecrement: () => void;
-  animatedCountStyle: AnimatedStyle;
+  animatedCountStyle: any;
 }
 
 export function CounterDisplay({ 
@@ -75,9 +75,9 @@ export function CounterDisplay({
         </Pressable>
       </Animated.View>
 
-      {goal > 0 && (
+      {goal > 0 && count >= goal && (
         <ThemedText style={styles.progressText}>
-          {count >= goal ? '🎉 Goal Reached!' : `${Math.max(0, goal - count)} more to go`}
+          🎉 Goal Reached!
         </ThemedText>
       )}
     </Animated.View>
@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingHorizontal: 24,
+    paddingHorizontal: 28,
   },
   counterRow: {
     flexDirection: 'row',
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#22c55e', // green-500 for increment
     width: 80,
     height: 80,
-    borderRadius: 40
+    borderRadius: 40,
   },
   buttonPressed: {
     transform: [{ scale: 0.98 }],

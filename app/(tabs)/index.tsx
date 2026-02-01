@@ -1,5 +1,5 @@
 import * as Haptics from 'expo-haptics';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { Alert, StyleSheet } from 'react-native';
 import ConfettiCannon from 'react-native-confetti-cannon';
 import { useAnimatedStyle, useSharedValue, withSequence, withTiming } from 'react-native-reanimated';
@@ -48,11 +48,19 @@ export default function HomeScreen() {
     setCount((c) => {
       const next = c + 1;
       animateNumber(1);
+      
+      // Trigger confetti only when reaching the goal exactly
+      if (goal > 0 && next === goal) {
+        setShowConfetti(true);
+        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {});
+        setTimeout(() => setShowConfetti(false), 1200);
+      }
+      
       return next;
     });
     pulse();
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => {});
-  }, [animateNumber, pulse, setCount]);
+  }, [animateNumber, pulse, setCount, goal]);
 
   const onDecrement = useCallback(() => {
     setCount((c) => {
@@ -97,18 +105,6 @@ export default function HomeScreen() {
     opacity: opacity.value,
   }));
 
-  // Check if goal is reached and trigger confetti
-  useEffect(() => {
-    if (goal > 0 && count >= goal && count > 0) {
-      setShowConfetti(true);
-      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {});
-      if (confettiRef.current) {
-        confettiRef.current.start();
-      }
-      setTimeout(() => setShowConfetti(false), 4000);
-    }
-  }, [count, goal]);
-
   return (
     <ThemedView style={styles.container}>
       <SurahContentDisplay 
@@ -146,11 +142,11 @@ export default function HomeScreen() {
       {showConfetti && (
         <ConfettiCannon
           count={200}
-          origin={{ x: -10, y: 0 }}
+          origin={{ x: 0, y: 0 }}
           autoStart={true}
           fadeOut={true}
-          fallSpeed={3000}
-          explosionSpeed={350}
+          fallSpeed={400}
+          explosionSpeed={600}
         />
       )}
     </ThemedView>

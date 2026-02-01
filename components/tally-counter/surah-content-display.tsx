@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
   surahContentTitle: {
     fontSize: 20,
     fontWeight: '700',
-    marginBottom: 2,
+    marginBottom: 0,
     textAlign: 'center',
     color: '#8b5cf6',
   },
@@ -93,11 +93,15 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   surahContentScrollView: {
-    maxHeight: 320,
+    maxHeight: 360,
+    borderWidth: 2,
+    borderColor: 'rgba(139, 92, 246, 0.2)',
+    borderRadius: 12,
+    backgroundColor: 'rgba(139, 92, 246, 0.03)',
   },
   surahContentScrollContent: {
-    paddingVertical: 8,
-    paddingHorizontal: 4,
+    paddingVertical: 12,
+    paddingHorizontal: 8,
   },
   surahContentText: {
     fontSize: 28,
